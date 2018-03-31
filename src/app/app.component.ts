@@ -51,14 +51,20 @@ export class AppComponent implements AfterViewInit {
     this.planet3.speed = 0.01;
     this.planet3.size = 15;
 
+    this.star = new Planet(<Position>{ x: this.centerX, y: this.centerY }, this.scale);
+    this.star.size = 20;
+
     this.startAnimation();
   }
   planet1: Planet;
   planet2: Planet;
   planet3: Planet;
+  star: Planet;
+
   centerX: number = 0;
   centerY: number = 0;
   scale = 0.4;
+  
   startAnimation = () => {
     this.cx.beginPath();
     this.cx.clearRect(-400, -400, this.width + 400, this.height + 400);
@@ -72,9 +78,8 @@ export class AppComponent implements AfterViewInit {
     this.planet3.nextPosition();
     this.planet3.render(this.cx);
     
+    this.star.render(this.cx);
 
-    this.cx.moveTo(this.centerX, this.centerY);
-    this.cx.ellipse(this.centerX, this.centerY, 20 * this.scale, 20 * this.scale, 0, 0, 2 * Math.PI);
     this.cx.fill();
 
     this.cx.closePath();
@@ -102,19 +107,17 @@ class Planet {
     this.setPosition();
   }
   public position: Position;
-  public radius: number;
+  public radius: number = 0;
   public speed: number = 0;
   public angle: number = 0;
   public size: number = 0;
 
   constructor(public center: Position, public scale: number) {
     this.position = <Position>{};
+    this.setPosition();
   }
   render(cx:CanvasRenderingContext2D){
-    //cx.beginPath()
     cx.moveTo(this.position.x,this.position.y);
     cx.ellipse(this.position.x, this.position.y,  this.size * this.scale, this.size * this.scale, 0, 0, 2 * Math.PI);
-    //cx.arc(x2, y2, 10 * this.scale, 0, 2 * Math.PI);
-    //cx.closePath()
   }
 }
