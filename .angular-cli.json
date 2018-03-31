@@ -7,6 +7,7 @@
     {
       "root": "src",
       "outDir": "dist",
+      "deployUrl": "/web_planets/dist/",
       "assets": [
         "assets",
         "favicon.ico"
