@@ -23,6 +23,8 @@ export class AppComponent implements AfterViewInit {
     const canvasEl: HTMLCanvasElement = this.canvas.nativeElement;
     this.cx = canvasEl.getContext('2d');
 
+    //canvasEl.st
+
     canvasEl.width = this.width;
     canvasEl.height = this.height;
 
@@ -33,8 +35,8 @@ export class AppComponent implements AfterViewInit {
     //this.cx.fillStyle = '#f00';
     //this.cx.translate(400,400);
 
-    this.centerX = canvasEl.width / 2 - 105;
-    this.centerY = canvasEl.height / 2 - 105;
+    this.centerX = canvasEl.width / 2;
+    this.centerY = canvasEl.height / 2;
 
     this.planet1 = new Planet(<Position>{ x: this.centerX, y: this.centerY }, this.scale);
     this.planet1.radius = 80;
@@ -64,7 +66,7 @@ export class AppComponent implements AfterViewInit {
   centerX: number = 0;
   centerY: number = 0;
   scale = 0.4;
-  
+
   startAnimation = () => {
     this.cx.beginPath();
     this.cx.clearRect(-400, -400, this.width + 400, this.height + 400);
