@@ -38,29 +38,47 @@ export class AppComponent implements AfterViewInit {
     this.centerX = canvasEl.width / 2;
     this.centerY = canvasEl.height / 2;
 
-    this.planet1 = new Planet(<Position>{ x: this.centerX, y: this.centerY }, this.scale);
+    this.star = new Planet();
+    this.star.size = 20;
+    this.star.scale = this.scale;
+    this.star.center = <Position>{ x: this.centerX, y: this.centerY };
+    this.star.position = <Position>{ x: this.centerX, y: this.centerY };
+
+    this.planet1 = new Planet();
     this.planet1.radius = 80;
     this.planet1.speed = 0.02;
     this.planet1.size = 10;
+    this.planet1.scale = this.scale;
+    this.planet1.center = this.star.position;
 
-    this.planet2 = new Planet(<Position>{ x: this.centerX, y: this.centerY }, this.scale);
+    this.planet2 = new Planet();
     this.planet2.radius = 120;
     this.planet2.speed = 0.04;
     this.planet2.size = 10;
+    this.planet2.scale = this.scale;
+    this.planet2.center = this.star.position;
 
-    this.planet3 = new Planet(<Position>{ x: this.centerX, y: this.centerY }, this.scale);
+    this.planet3 = new Planet();
     this.planet3.radius = 180;
     this.planet3.speed = 0.01;
     this.planet3.size = 15;
+    this.planet3.scale = this.scale;
+    this.planet3.center = this.star.position;
 
-    this.star = new Planet(<Position>{ x: this.centerX, y: this.centerY }, this.scale);
-    this.star.size = 20;
+    this.satelit = new Planet();
+    this.satelit.radius = 40;
+    this.satelit.speed = 0.1;
+    this.satelit.size = 8;
+    this.satelit.scale = this.scale;
+    this.satelit.center = this.star.position;
+   
 
     this.startAnimation();
   }
   planet1: Planet;
   planet2: Planet;
   planet3: Planet;
+  satelit: Planet;
   star: Planet;
 
   centerX: number = 0;
@@ -79,7 +97,11 @@ export class AppComponent implements AfterViewInit {
 
     this.planet3.nextPosition();
     this.planet3.render(this.cx);
-    
+
+    this.satelit.center = this.planet3.position;
+    this.satelit.nextPosition();
+    this.satelit.render(this.cx);
+
     this.star.render(this.cx);
 
     this.cx.fill();
@@ -108,18 +130,40 @@ class Planet {
 
     this.setPosition();
   }
-  public position: Position;
+  public position: Position = <Position>{};
   public radius: number = 0;
   public speed: number = 0;
   public angle: number = 0;
   public size: number = 0;
+  public scale: number
+  public center: Position
 
-  constructor(public center: Position, public scale: number) {
-    this.position = <Position>{};
-    this.setPosition();
+  //constructor(center: Position)
+  //constructor(parentPlanet: Planet)
+  constructor() {
+    // if (typeof obj === typeof Position) {
+    //   this.position = <Position>{};
+    //   this.center = obj;
+    //   this.setPosition();
+    // } else if (typeof obj === typeof Planet) {
+    //   this.center = (<Planet>obj).position;
+    //   this.position = <Position>{};
+    //   this.setPosition();
+    // }
+    //this.setPosition();
   }
-  render(cx:CanvasRenderingContext2D){
-    cx.moveTo(this.position.x,this.position.y);
-    cx.ellipse(this.position.x, this.position.y,  this.size * this.scale, this.size * this.scale, 0, 0, 2 * Math.PI);
+  render(cx: CanvasRenderingContext2D) {
+    cx.moveTo(this.position.x, this.position.y);
+    cx.ellipse(this.position.x, this.position.y, this.size * this.scale, this.size * this.scale, 0, 0, 2 * Math.PI);
   }
+
+
+  // constructor(public center: Position, ) {
+  //   this.position = <Position>{};
+  //   this.setPosition();
+  // }
+  // render(cx:CanvasRenderingContext2D){
+  //   cx.moveTo(this.position.x,this.position.y);
+  //   cx.ellipse(this.position.x, this.position.y,  this.size * this.scale, this.size * this.scale, 0, 0, 2 * Math.PI);
+  // }
 }
